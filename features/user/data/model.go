@@ -37,3 +37,13 @@ func CoreToModel(dataCore user.Core) User {
 		Status:    UserStatus(Reservant),
 	}
 }
+
+// mapping dari core ke gorm
+func CoreToUpdateModel(dataCore user.Core) User {
+	return User{
+		User_name: dataCore.User_name,
+		Phone:     dataCore.Phone,
+		Email:     dataCore.Email,
+		Password:  dataCore.Password,
+	}
+}

@@ -34,16 +34,24 @@ type Register struct {
 	Phone     string `json:"phone" form:"phone"`
 }
 
+type UpdatedProfil struct {
+	User_name string `json:"nama" form:"nama"`
+	Phone     string `json:"phone" form:"phone"`
+	Email     string `json:"email" form:"email"`
+	Password  string `json:"password" form:"password"`
+}
+
 type UserDataInterface interface {
 	CreateUser(userInput Core) error
 	Login(email, password string) (Core, string, error)
 	GetUserById(id int) ([]Core, error)
+	UpdateUserById(id int, userInput Core) error
 	// GetAllUser(keyword string) ([]Core, error)
 	// GetUserByID(userID uint) (*Core, error)
 	// GetRoleByID(userID int) (UserRole, error)
 	// Update(userID int, updatedUser Core) error
 	// Delete(userID int) error
-	// UpdateUserById(id string, userInput Core) error
+
 }
 
 type UserServiceInterface interface {
@@ -51,8 +59,9 @@ type UserServiceInterface interface {
 	CreateUser(userInput Core) error
 	Login(email, password string) (Core, string, error)
 	GetUserById(id int) ([]Core, error)
+	UpdateUserById(id int, userInput Core) error
 	// GetAllUser(keyword string) ([]Core, error)
 	// Update(userID int, updatedUser Core, loggedInUserID int) error
 	// Delete(userID int, loggedInUserID int) error
-	// UpdateUserById(id string, userInput Core) error
+
 }

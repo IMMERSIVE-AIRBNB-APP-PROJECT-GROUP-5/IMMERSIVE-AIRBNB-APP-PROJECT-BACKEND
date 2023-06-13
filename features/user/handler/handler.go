@@ -91,3 +91,34 @@ func (handler *UserHandler) GetUserById(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, helper.SuccessWithDataResponse("Berhasil mendapatkan data pengguna", userResponse))
 }
+
+func (handler *UserHandler) UpdateUserById(c echo.Context) error {
+	// Mendapatkan ID pengguna yang login
+	id, err := middlewares.ExtractTokenUserId(c)
+
+	// Bind data pengguna yang baru dari request body
+	userInput := UserRequest{}
+	// bind, membaca data yg dikirimkan client via request body
+	errBind := c.Bind(&userInput)
+	if errBind != nil {
+		return c.JSON(http.StatusBadRequest, helper.FailedResponse("error bind data user"))
+	}
+
+	// mapping dari request ke core
+	userCore := user.Core{
+		User_name: userInput.User_name,
+		Phone:     userInput.Phone,
+		Email:     userInput.Email,
+		Password:  userInput.Password,
+	}
+
+	err = handler.userService.UpdateUserById(id, userCore)
+	if err != nil {
+		if strings.Contains(err.Error(), "Gagal memperbarui data pengguna") {
+			return c.JSON(http.StatusBadRequest, helper.FailedResponse("error updated data user, row affected = 0"))
+		} else {
+			return c.JSON(http.StatusBadRequest, helper.FailedResponse(err.Error()))
+		}
+	}
+	return c.JSON(http.StatusOK, helper.SuccessResponse("Berhasil memperbarui data pengguna"))
+}
