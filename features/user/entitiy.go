@@ -37,6 +37,7 @@ type Register struct {
 type UserDataInterface interface {
 	CreateUser(userInput Core) error
 	Login(email, password string) (Core, string, error)
+	GetUserById(id int) ([]Core, error)
 	// GetAllUser(keyword string) ([]Core, error)
 	// GetUserByID(userID uint) (*Core, error)
 	// GetRoleByID(userID int) (UserRole, error)
@@ -49,6 +50,7 @@ type UserServiceInterface interface {
 	// GetRoleByID(userID int) (UserRole, error)
 	CreateUser(userInput Core) error
 	Login(email, password string) (Core, string, error)
+	GetUserById(id int) ([]Core, error)
 	// GetAllUser(keyword string) ([]Core, error)
 	// Update(userID int, updatedUser Core, loggedInUserID int) error
 	// Delete(userID int, loggedInUserID int) error

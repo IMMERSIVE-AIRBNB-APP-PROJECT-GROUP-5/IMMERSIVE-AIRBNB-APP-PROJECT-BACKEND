@@ -13,6 +13,31 @@ type userQuery struct {
 	db *gorm.DB
 }
 
+// GetUserById implements user.UserDataInterface.
+func (repo *userQuery) GetUserById(id int) ([]user.Core, error) {
+	var userData []User
+	tx := repo.db.First(&userData, id)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	// mapping dari struct gorm model ke struct entities core
+	var usersCoreAll []user.Core
+	for _, value := range userData {
+		var userCore = user.Core{
+			Id:         value.ID,
+			User_name:  value.User_name,
+			Email:      value.Email,
+			Phone:      value.Phone,
+			Password:   value.Password,
+			Status:     user.UserStatus(value.Status),
+			Created_at: value.CreatedAt,
+			Updated_at: value.UpdatedAt,
+		}
+		usersCoreAll = append(usersCoreAll, userCore)
+	}
+	return usersCoreAll, nil
+}
+
 // Login implements user.UserDataInterface.
 func (repo *userQuery) Login(email string, password string) (user.Core, string, error) {
 	var userData User

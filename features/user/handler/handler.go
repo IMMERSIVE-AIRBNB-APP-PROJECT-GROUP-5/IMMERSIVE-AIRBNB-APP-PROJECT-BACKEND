@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/AIRBNBAPP/app/middlewares"
 	"github.com/AIRBNBAPP/features/user"
 	"github.com/AIRBNBAPP/helper"
 	"github.com/labstack/echo/v4"
@@ -68,4 +69,25 @@ func (handler *UserHandler) Login(c echo.Context) error {
 		"status": userData.Status,
 		"token":  token,
 	}))
+}
+
+func (handler *UserHandler) GetUserById(c echo.Context) error {
+	// Mendapatkan ID pengguna yang login
+	id, err := middlewares.ExtractTokenUserId(c)
+
+	// Mengambil data pengguna berdasarkan ID
+	results, err := handler.userService.GetUserById(id)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, helper.FailedResponse("Gagal mendapatkan data pengguna"))
+	}
+	var userResponse []UserResponse
+	for _, value := range results {
+		userResponse = append(userResponse, UserResponse{
+			User_name: value.User_name,
+			Email:     value.Email,
+			Phone:     value.Phone,
+			Status:    UserStatus(value.Status),
+		})
+	}
+	return c.JSON(http.StatusOK, helper.SuccessWithDataResponse("Berhasil mendapatkan data pengguna", userResponse))
 }

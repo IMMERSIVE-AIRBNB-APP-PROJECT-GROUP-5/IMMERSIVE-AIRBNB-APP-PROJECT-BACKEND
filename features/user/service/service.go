@@ -14,6 +14,12 @@ type userService struct {
 	validate *validator.Validate
 }
 
+// GetUserById implements user.UserServiceInterface.
+func (service *userService) GetUserById(id int) ([]user.Core, error) {
+	data, err := service.userData.GetUserById(id)
+	return data, err
+}
+
 // Login implements user.UserServiceInterface.
 func (service *userService) Login(email string, password string) (user.Core, string, error) {
 	// Mengatur validator
