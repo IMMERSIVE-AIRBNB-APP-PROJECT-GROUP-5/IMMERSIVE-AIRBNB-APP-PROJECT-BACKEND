@@ -46,6 +46,7 @@ type UserDataInterface interface {
 	Login(email, password string) (Core, string, error)
 	Profil(id int) ([]Core, error)
 	UpdatedProfil(id int, userInput Core) error
+	DeleteAccount(id int) error
 	// GetAllUser(keyword string) ([]Core, error)
 	// GetUserByID(userID uint) (*Core, error)
 	// GetRoleByID(userID int) (UserRole, error)
@@ -59,6 +60,7 @@ type UserServiceInterface interface {
 	Login(email, password string) (Core, string, error)
 	Profil(id int) ([]Core, error)
 	UpdatedProfil(id int, userInput Core) error
+	DeleteAccount(id int) error
 	// GetRoleByID(userID int) (UserRole, error)
 	// GetAllUser(keyword string) ([]Core, error)
 	// Update(userID int, updatedUser Core, loggedInUserID int) error

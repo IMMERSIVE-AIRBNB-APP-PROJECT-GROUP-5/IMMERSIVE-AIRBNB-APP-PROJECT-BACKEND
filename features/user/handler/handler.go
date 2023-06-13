@@ -122,3 +122,21 @@ func (handler *UserHandler) UpdatedProfil(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, helper.SuccessResponse("Berhasil memperbarui data pengguna"))
 }
+
+func (handler *UserHandler) DeleteAccount(c echo.Context) error {
+	// Mendapatkan ID pengguna yang login
+	id, err := middlewares.ExtractTokenUserId(c)
+
+	// Hapus data pengguna dari database
+	err = handler.userService.DeleteAccount(id)
+	if err != nil {
+		if strings.Contains(err.Error(), "Gagal menghapus data pengguna") {
+			return c.JSON(http.StatusBadRequest, helper.FailedResponse("error deleted data user, row affected = 0"))
+		} else {
+			return c.JSON(http.StatusBadRequest, helper.FailedResponse("Pengguna tidak ditemukan"))
+		}
+	}
+
+	// Mengembalikan respons JSON yang menyatakan berhasil menghapus data pengguna
+	return c.JSON(http.StatusOK, helper.SuccessResponse("Berhasil menghapus data pengguna"))
+}

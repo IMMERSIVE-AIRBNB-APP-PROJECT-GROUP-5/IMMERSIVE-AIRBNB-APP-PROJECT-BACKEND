@@ -125,6 +125,19 @@ func (repo *userQuery) UpdatedProfil(id int, userInput user.Core) error {
 	return nil
 }
 
+// DeleteAccount implements user.UserDataInterface.
+func (repo *userQuery) DeleteAccount(id int) error {
+	// Menghapus data pengguna dari database menggunakan GORM
+	tx := repo.db.Delete(&User{}, id)
+	if tx.Error != nil {
+		return tx.Error
+	}
+	if tx.RowsAffected == 0 {
+		return errors.New("Deleted Failed, row affected = 0")
+	}
+	return nil
+}
+
 func New(db *gorm.DB) user.UserDataInterface {
 	return &userQuery{
 		db: db,

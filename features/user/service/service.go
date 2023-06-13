@@ -234,6 +234,12 @@ func (service *userService) UpdatedProfil(id int, userInput user.Core) error {
 	return errUpdate
 }
 
+// DeleteAccount implements user.UserServiceInterface.
+func (service *userService) DeleteAccount(id int) error {
+	data := service.userData.DeleteAccount(id)
+	return data
+}
+
 func New(repo user.UserDataInterface) user.UserServiceInterface {
 	return &userService{
 		userData: repo,
