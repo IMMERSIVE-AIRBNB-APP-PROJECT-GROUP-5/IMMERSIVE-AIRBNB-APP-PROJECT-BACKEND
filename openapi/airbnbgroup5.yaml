@@ -1,0 +1,1254 @@
+openapi: 3.0.2
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/khadafirain/AIR_BNB_APP/1.0.0
+info:
+  description: Aplikasi pemesanan homestay
+  version: "1.0.0"
+  title: AIR-BNB-APP-GROUP-5
+  contact:
+    email: Khadafirain@gmail.com
+  license:
+    name: Apache 2.0
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+paths:
+  ####################################
+  #  HALAMAN REGISTER
+  ####################################
+  /register:
+    post:
+      tags:
+        - Register
+      summary: Pendaftaran pengguna baru
+      description: Halaman untuk register
+      requestBody:
+        required: true
+        content:
+          application/json/form-data:
+            schema:
+              $ref: "#/components/schemas/registerUserData"
+            examples:
+              userData1:
+                description: "Example data user"
+                value:
+                  {
+                    nama: "Khadafi1",
+                    email: "Khadafirain@gmail.com",
+                    password: "Khadafi151220",
+                    phone: "081345076293",
+                  }
+              userData2:
+                description: "Example data user"
+                value:
+                  {
+                    nama: "Khadafi2",
+                    email: "Khadafi@alterra.id",
+                    password: "Luffy140818",
+                    phone: "085340643552",
+                  }
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      message: "Selamat, akun anda berhasil terdaftar !",
+                    }
+
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, message: "Semua data harus diisi" }
+                responsedata2:
+                  description: response failed 2
+                  value: { code: 400, message: "Format email tidak valid" }
+                responsedata3:
+                  description: response failed 3
+                  value:
+                    {
+                      code: 400,
+                      message: "Password harus memiliki panjang minimal 8 karakter",
+                    }
+                responsedata4:
+                  description: response failed 4
+                  value:
+                    {
+                      code: 400,
+                      message: "Password harus kombinasi huruf dan angka",
+                    }
+                responsedata5:
+                  description: response failed 5
+                  value: { code: 400, message: "Nama harus huruf" }
+                responsedata6:
+                  description: response failed 6
+                  value: { code: 400, message: "Phone harus angka" }
+                responsedata7:
+                  description: response failed 7
+                  value: { code: 400, message: "Phone minimal 10 digit angka" }
+                responsedata8:
+                  description: response failed 8
+                  value:
+                    { code: 400, message: "Email atau phone telah terdaftar" }
+
+  ####################################
+  #  HALAMAN LOGIN
+  ####################################
+  /login:
+    post:
+      tags:
+        - Login Authentication
+      summary: Login to app
+      description: Endpoint untuk halaman login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/requestLogin"
+            examples:
+              userData1:
+                description: "Example data user"
+                value:
+                  { email: "Khadafirain@gmail.com", password: "Khadafi151220" }
+              userData2:
+                description: "Example data user"
+                value: { email: "Khadafi@alterra.id", password: "Luffy140818" }
+
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseLoginSuccess"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      message: "Selamat, anda berhasil login !",
+                      data:
+                        {
+                          nama: Khadafi1,
+                          email: Khadafirain@gmail.com,
+                          status: reservant,
+                          phone: "081345076293",
+                          token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co",
+                        },
+                    }
+                responseData2:
+                  description: response success 2
+                  value:
+                    {
+                      code: 200,
+                      message: "Selamat, anda berhasil login !",
+                      data:
+                        {
+                          nama: Khadafi2,
+                          email: Khadafi@alterra.id,
+                          status: reservant,
+                          token: "AyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co",
+                        },
+                    }
+
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    { code: 400, message: "Email dan password harus diisi" }
+                responseData2:
+                  description: response failed 2
+                  value: { code: 400, message: "Format email tidak valid" }
+                responseData3:
+                  description: response failed 3
+                  value:
+                    {
+                      code: 400,
+                      message: "Password harus memiliki panjang minimal 8 karakter",
+                    }
+                responseData4:
+                  description: response failed 4
+                  value:
+                    {
+                      code: 400,
+                      message: "Password harus kombinasi huruf dan angka",
+                    }
+                responseData5:
+                  description: response failed 5
+                  value: { code: 400, message: "Login gagal, email anda salah" }
+                responseData6:
+                  description: response failed 6
+                  value:
+                    { code: 400, message: "Login gagal, password anda salah" }
+
+  ####################################
+  #  HALAMAN USER
+  ####################################
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Mendapatkan profil pengguna yang login
+      description: Halaman profil
+      security:
+        - JWTAuth: []
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseUserData"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      message: "Berhasil mendapatkan data pengguna",
+                      data:
+                        {
+                          nama: "Khadafi1",
+                          email: "Khadafirain@gmail.com",
+                          phone: "081345076293",
+                          status: "reservant",
+                        },
+                    }
+                responseData2:
+                  description: response success 2
+                  value:
+                    {
+                      code: 200,
+                      message: "Berhasil mendapatkan data pengguna",
+                      data:
+                        {
+                          nama: "Khadafi2",
+                          email: "Khadafi@alterra.id",
+                          phone: "085340643552",
+                          status: "hosters",
+                        },
+                    }
+
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    { code: 400, message: "Gagal mendapatkan data pengguna" }
+    put:
+      tags:
+        - Users
+      summary: Mengupdate profil pengguna yang login
+      description: Halaman profil
+      security:
+        - JWTAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Khadafi3
+                email:
+                  type: string
+                  example: naruto@gmail.com
+                password:
+                  type: string
+                  example: Naruto151220
+                phone:
+                  type: string
+                  example: 085673456842
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    { code: 200, message: "Berhasil memperbarui data pengguna" }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, message: "Data harus diisi" }
+                responsedata2:
+                  description: response failed 2
+                  value: { code: 400, message: "Format email tidak valid" }
+                responsedata3:
+                  description: response failed 3
+                  value:
+                    {
+                      code: 400,
+                      message: "Password harus memiliki panjang minimal 8 karakter",
+                    }
+                responsedata4:
+                  description: response failed 4
+                  value:
+                    {
+                      code: 400,
+                      message: "Password harus kombinasi huruf dan angka",
+                    }
+                responsedata5:
+                  description: response failed 5
+                  value: { code: 400, message: "Nama harus huruf" }
+                responsedata6:
+                  description: response failed 6
+                  value: { code: 400, message: "Phone harus angka" }
+                responsedata7:
+                  description: response failed 7
+                  value: { code: 400, message: "Phone minimal 10 digit angka" }
+                responsedata8:
+                  description: response failed 8
+                  value:
+                    { code: 400, message: "Email atau phone telah terdaftar" }
+                responsedata9:
+                  description: response failed 9
+                  value:
+                    { code: 400, message: "Gagal memperbarui data pengguna" }
+    delete:
+      tags:
+        - Users
+      summary: Menghapus profil pengguna yang login
+      description: Halaman profil
+      security:
+        - JWTAuth: []
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    { code: 200, message: "Berhasil menghapus data pengguna" }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, message: "Gagal menghapus data pengguna" }
+
+  /users/validate:
+    post:
+      tags:
+        - Users
+      summary: Memvalidasi profil users sebagai hosters
+      description: Halaman validasi users
+      security:
+        - JWTAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  example: url
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      message: "Selamat, anda memiliki akses menambahkan homestays",
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    { code: 400, message: "Gagal menambahkan foto" }
+  ####################################
+  #  HOMESTAYS
+  ####################################
+  /homestays:
+    post:
+      tags:
+        - Homestays
+      summary: Membuat homestay baru
+      description: Halaman sewakan
+      security:
+        - JWTAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                homestay_name:
+                  type: string
+                  example: Villa Sakoji
+                price:
+                  type: integer
+                  example: 1000000
+                total_guest:
+                  type: integer
+                  example: 2
+                description:
+                  type: string
+                  example: Lokasi berada di segitiga bermuda
+                city_name:
+                  type: string
+                  example: 1
+                facility:
+                  type: array
+                  items:
+                    type: integer
+                    example: [1, 2]
+                address:
+                  type: string
+                  example: Jl. Segitiga Bermuda no.1, Malang, Jawa Timur
+                url:
+                  type: string
+                  example: url
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      message: "Selamat, anda berhasil menambahkan data homestay",
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    { code: 400, message: "Gagal menambahkan data homestay" }
+    get:
+      tags:
+        - Homestays
+      summary: Menampilkan semua list homestay
+      description: Endpoint untuk halaman beranda
+      parameters:
+        - name: Search
+          description: Pencarian homestay berdasarkan nama, kota, atau alamat
+          in: query
+          schema:
+            type: string
+            example: homestay_name:Villa Sakoji, city_name:Malang, address:Jalan Segitiga Bermuda
+          required: false
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseHomestaysData"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      message: "Berhasil mendapatkan data homestay",
+                      data:[
+                        {
+                          homestay_name: Villa Sakoji,
+                          city_name: Malang,
+                          rating: 5,
+                          price: 1000000,
+                          url: url,
+                        },
+                        {
+                          homestay_name: Villa Ruben,
+                          city_name: Bandung,
+                          rating: 5,
+                          price: 2000000,
+                          url: url,
+                        },
+                      ],
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    { code: 400, message: "Gagal mendapatkan data homestay" }
+
+  /users/{user_id}/homestays:
+    get:
+      tags:
+        - Homestays
+      summary: Menampilkan data list homestays yang dimiliki pengguna yang login {user_id}
+      description: Endpoint untuk ke profil homestays
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: user_id
+          description: Pencarian homestays berdasarkan {user_id}
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseHomestaysData"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      message: "Berhasil mendapatkan data homestay {user_id}",
+                      data:[ { id: 1, nama: Villa Sakoji, city_name: Malang },
+                      { id: 2, nama: Villa Ruben, city_name: Bandung },],
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    {
+                      code: 400,
+                      message: "Gagal mendapatkan data homestay {id}",
+                    }
+
+  /homestays/{homestays_id}/upload:
+    post:
+      tags:
+        - Homestays
+      summary: Menambahkan foto homestays {homestays_id}
+      description: Halaman sewakan
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: homestays_id
+          description: Menambahkan foto homestays baru {homestays_id}
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  example: url
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      message: "Selamat, anda berhasil menambahkan foto homestays",
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    { code: 400, message: "Gagal menambahkan foto homestays" }
+
+  /homestays/{id}:
+    get:
+      tags:
+        - Homestays
+      summary: Menampilkan data homestay {id}
+      description: Endpoint untuk ke detail homestay
+      parameters:
+        - name: id
+          description: Pencarian homestay berdasarkan {id}
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseHomestaysData"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      message: "Berhasil mendapatkan data homestay {id}",
+                      data:
+                        {
+                          id: 1,
+                          nama: Villa Sakoji,
+                          rating: 5,
+                          city_name: Malang,
+                          total_guest: 2,
+                          description: Lokasi berada di segitiga bermuda,
+                          facility: [1, 2],
+                          url: [urlgambar1, urlgambar2, urlgambar3],
+                        },
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    {
+                      code: 400,
+                      message: "Gagal mendapatkan data homestay {id}",
+                    }
+    put:
+      tags:
+        - Homestays
+      summary: Memperbarui data homestay {id}
+      description: Halaman sewakan
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: Memperbarui homestay berdasarkan {id}
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                homestay_name:
+                  type: string
+                  example: Villa Ruben
+                city_name:
+                  type: string
+                  example: Malang
+                price:
+                  type: integer
+                  example: 2000000
+                total_guest:
+                  type: integer
+                  example: 4
+                description:
+                  type: string
+                  example: Lokasi berada di segitiga tua
+                facility:
+                  type: array
+                  items:
+                    type: integer
+                    example: [1, 2, 3, 4]
+                address:
+                  type: string
+                  example: Jl. Segitiga Tua no 2, Surabaya, Jawa Timur
+                url:
+                  type: string
+                  example: url
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      message: "Selamat, anda berhasil memperbarui data homestay",
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    { code: 400, message: "Gagal memperbarui data homestay" }
+    delete:
+      tags:
+        - Homestays
+      summary: Menghapus data homestay {id}
+      description: Halaman sewakan
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: Menghapus homestay berdasarkan {id}
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      message: "Selamat, anda berhasil menghapus data homestay",
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, message: "Gagal menghapus data homestay" }
+  ####################################
+  #  RESERVATIONS
+  ####################################
+  /reservations:
+    post:
+      tags:
+        - Reservations
+      summary: Membuat reservasi baru
+      description: Halaman Confirm & Pay
+      security:
+        - JWTAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                homestays_id:
+                  type: integer
+                  example: 1
+                total_price:
+                  type: integer
+                  example: 1
+                total_night:
+                  type: integer
+                  example: 1
+                check_in:
+                  type: string
+                  example: 2023/06/03
+                check_out:
+                  type: string
+                  example: 2021/12/05
+                payment_method:
+                  properties:
+                    method_name:
+                      type: string
+                      example: Ovo
+
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      message: "Selamat, anda berhasil membuat reservasi",
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, message: "Gagal membuat reservasi" }
+  /homestays/{homestays_id}/check:
+    post:
+      tags:
+        - Reservations
+      summary: Mengecek ketersediaan homestay {homestays_id}
+      description: Halaman detail homestay
+      parameters:
+        - name: homestays_id
+          description: Pengecekan ketersediaan homestay {id}
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                check_in:
+                  type: string
+                  example: 2023/06/03
+                check_out:
+                  type: string
+                  example: 2023/06/05
+
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseReservationData"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: { code: 200, message: "Penginapan tersedia" }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, message: "Penginapan tidak tersedia" }
+  /users/{user_id}/reservations:
+    get:
+      tags:
+        - Reservations
+      summary: Menampilkan histori data reservasi {user_id}
+      description: Halaman pesanan saya
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: user_id
+          description: menampilkan data reservasi by {user_id}
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseReservationData"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      message: "Berhasil mendapatkan data reservasi",
+                      data:[
+                        {
+                          homestays_id: 1,
+                          check_in: 2023/06/03,
+                          check_out: 2023/06/05,
+                          method_name: ovo,
+                          total_price: 2000000,
+                          status: success,
+                        },
+                        {
+                          homestays_id: 2,
+                          check_in: 2023/06/06,
+                          check_out: 2023/06/08,
+                          method_name: ovo,
+                          total_price: 1000000,
+                          status: success,
+                        },
+                      ],
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    { code: 400, message: "Gagal mendapatkan data reservasi" }
+
+  ####################################
+  #  REVIEWS
+  ####################################
+  /reviews:
+    post:
+      tags:
+        - Reviews
+      summary: Membuat reviews {pengguna yang sudah reservasi}
+      description: Halaman review
+      security:
+        - JWTAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                homestays_id:
+                  type: integer
+                  example: 1
+                rating:
+                  type: integer
+                  enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                comment:
+                  type: string
+                  example: Villa saykoji mantap dengan nuansa segitiga bermuda
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      message: "Terima kasih telah memberikan ulasan",
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, message: "Gagal membuat ulasan" }
+  /homestays/{homestays_id}/reviews:
+    get:
+      tags:
+        - Reviews
+      summary: Menampilkan data reviews homestays {homestays_id}
+      description: Halaman detail
+      parameters:
+        - name: homestays_id
+          description: menampilkan data reviews pada homestay {homestays_id}
+          in: path
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseReviewsData"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      message: "Berhasil mendapatkan ulasan",
+                      data:
+                        {
+                          reservations_id: 1,
+                          homestays_id: 1,
+                          rating: 5,
+                          comment: Villa saykoji mantap dengan nuansa segitiga bermuda,
+                        },
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, message: "Gagal mendapatkan ulasan" }
+
+#==================================#
+#    COMPONENT
+#==================================#
+components:
+  #==================================#
+  #    JWT
+  #==================================#
+  securitySchemes:
+    JWTAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "use Token"
+  #==================================#
+  #    SCHEMAS
+  #==================================#
+  schemas:
+    #==================================#
+    #    LOGIN
+    #==================================#
+    requestLogin:
+      type: object
+      properties:
+        "email":
+          type: string
+          minLength: 1
+        "password":
+          type: string
+          minLength: 1
+    #    Login Success
+    responseLoginSuccess:
+      type: object
+      properties:
+        {
+          "code": { type: number },
+          "message": { type: string },
+          "data": { type: object },
+        }
+    #==================================#
+    #    REGISTER
+    #==================================#
+    registerUserData:
+      type: object
+      properties:
+        "name":
+          type: string
+          minLength: 1
+        "email":
+          type: string
+          minLength: 1
+        "password":
+          type: string
+          minLength: 1
+        "phone":
+          type: string
+          minLength: 1
+    #==================================#
+    #    USERS
+    #==================================#
+    responseUserData:
+      type: object
+      properties:
+        "id":
+          type: number
+          minLength: 1
+        "name":
+          type: string
+          minLength: 1
+        "email":
+          type: string
+          minLength: 1
+        "role":
+          type: string
+          minLength: 1
+        "token":
+          type: string
+          minLength: 1
+    #==================================#
+    #    HOMESTAYS
+    #==================================#
+    responseHomestaysData:
+      type: object
+      properties:
+        "id":
+          type: number
+          minLength: 1
+        "user_id":
+          type: number
+          minLength: 1
+        "city_name":
+          type: string
+          minLength: 1
+        "homestay_name":
+          type: string
+          minLength: 1
+        "address":
+          type: string
+          minLength: 1
+        "total_guest":
+          type: number
+          minLength: 1
+        "total_night":
+          type: number
+          minLength: 1
+        "rating":
+          type: number
+          minLength: 1
+        "description":
+          type: number
+          minLength: 1
+        "url":
+          type: string
+          minLength: 1
+    #==================================#
+    #   RESERVATIONS
+    #==================================#
+    responseReservationData:
+      type: object
+      properties:
+        "user_id":
+          type: number
+          minLength: 1
+        "homestays_id":
+          type: number
+          minLength: 1
+        "check_in":
+          type: string
+          minLength: 1
+        "check_out":
+          type: number
+          minLength: 1
+        "method_name":
+          type: string
+          minLength: 1
+        "total_price":
+          type: number
+          minLength: 1
+        "total_night":
+          type: number
+          minLength: 1
+    #==================================#
+    #    REVIEWS
+    #==================================#
+    responseReviewsData:
+      type: object
+      properties:
+        "reservations_id":
+          type: number
+          minLength: 1
+        "homestays_id":
+          type: number
+          minLength: 1
+        "rating":
+          type: number
+          minLength: 1
+        "comment":
+          type: string
+          minLength: 1
+    #==================================#
+    #    GLOBAL RESPONSE
+    #==================================#
+    #    Success
+    successResponse:
+      type: object
+      properties: { "code": { type: number }, "message": { type: string } }
+    #    Failed
+    failedResponse:
+      type: object
+      properties: { "code": { type: number }, "message": { type: string } }
