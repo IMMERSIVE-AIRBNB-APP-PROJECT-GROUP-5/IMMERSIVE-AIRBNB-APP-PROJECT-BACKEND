@@ -32,15 +32,14 @@ func (handler *UserHandler) CreateUser(c echo.Context) error {
 		Phone:     userInput.Phone,
 		Email:     userInput.Email,
 		Password:  userInput.Password,
-		Status:    user.UserStatus(user.Reservant),
 	}
 	err := handler.userService.CreateUser(userCore)
 	if err != nil {
 		if strings.Contains(err.Error(), "failed inserted data user") {
 			return c.JSON(http.StatusBadRequest, helper.FailedResponse("error inserted data user, row affected = 0"))
 		} else {
-			return c.JSON(http.StatusInternalServerError, helper.FailedResponse("error inserted data user"+err.Error()))
+			return c.JSON(http.StatusBadRequest, helper.FailedResponse(err.Error()))
 		}
 	}
-	return c.JSON(http.StatusOK, helper.SuccessResponse("success inserted data user"))
+	return c.JSON(http.StatusOK, helper.SuccessResponse("Selamat, akun anda berhasil terdaftar !"))
 }

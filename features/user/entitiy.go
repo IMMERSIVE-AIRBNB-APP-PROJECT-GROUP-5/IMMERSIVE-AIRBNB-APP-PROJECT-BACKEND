@@ -22,6 +22,13 @@ type Core struct {
 	Deleted_at time.Time
 }
 
+type Register struct {
+	User_name string `json:"nama" form:"nama"`
+	Email     string `json:"email" form:"email"`
+	Password  string `json:"password" form:"password"`
+	Phone     string `json:"phone" form:"phone"`
+}
+
 type UserDataInterface interface {
 	CreateUser(userInput Core) error
 	// Login(email, password string) (Core, string, error)
