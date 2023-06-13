@@ -20,7 +20,7 @@ func New(handler user.UserServiceInterface) *UserHandler {
 	}
 }
 
-func (handler *UserHandler) CreateUser(c echo.Context) error {
+func (handler *UserHandler) Register(c echo.Context) error {
 	userInput := UserRequest{}
 	// bind, membaca data yg dikirimkan client via request body
 	errBind := c.Bind(&userInput)
@@ -34,9 +34,9 @@ func (handler *UserHandler) CreateUser(c echo.Context) error {
 		Email:     userInput.Email,
 		Password:  userInput.Password,
 	}
-	err := handler.userService.CreateUser(userCore)
+	err := handler.userService.Register(userCore)
 	if err != nil {
-		if strings.Contains(err.Error(), "failed inserted data user") {
+		if strings.Contains(err.Error(), "Gagal melakukan pendaftaran akun") {
 			return c.JSON(http.StatusBadRequest, helper.FailedResponse("error inserted data user, row affected = 0"))
 		} else {
 			return c.JSON(http.StatusBadRequest, helper.FailedResponse(err.Error()))
@@ -55,7 +55,7 @@ func (handler *UserHandler) Login(c echo.Context) error {
 	// Memeriksa apakah email & password telah diinputkan di database
 	userData, token, err := handler.userService.Login(loginInput.Email, loginInput.Password)
 	if err != nil {
-		if strings.Contains(err.Error(), "login failed") {
+		if strings.Contains(err.Error(), "Gagal melakukan login") {
 			return c.JSON(http.StatusBadRequest, helper.FailedResponse(err.Error()))
 			// Memeriksa validasi di database dan validasi lainnya
 		} else {
@@ -71,12 +71,12 @@ func (handler *UserHandler) Login(c echo.Context) error {
 	}))
 }
 
-func (handler *UserHandler) GetUserById(c echo.Context) error {
+func (handler *UserHandler) Profil(c echo.Context) error {
 	// Mendapatkan ID pengguna yang login
 	id, err := middlewares.ExtractTokenUserId(c)
 
 	// Mengambil data pengguna berdasarkan ID
-	results, err := handler.userService.GetUserById(id)
+	results, err := handler.userService.Profil(id)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, helper.FailedResponse("Gagal mendapatkan data pengguna"))
 	}
@@ -92,7 +92,7 @@ func (handler *UserHandler) GetUserById(c echo.Context) error {
 	return c.JSON(http.StatusOK, helper.SuccessWithDataResponse("Berhasil mendapatkan data pengguna", userResponse))
 }
 
-func (handler *UserHandler) UpdateUserById(c echo.Context) error {
+func (handler *UserHandler) UpdatedProfil(c echo.Context) error {
 	// Mendapatkan ID pengguna yang login
 	id, err := middlewares.ExtractTokenUserId(c)
 
@@ -112,7 +112,7 @@ func (handler *UserHandler) UpdateUserById(c echo.Context) error {
 		Password:  userInput.Password,
 	}
 
-	err = handler.userService.UpdateUserById(id, userCore)
+	err = handler.userService.UpdatedProfil(id, userCore)
 	if err != nil {
 		if strings.Contains(err.Error(), "Gagal memperbarui data pengguna") {
 			return c.JSON(http.StatusBadRequest, helper.FailedResponse("error updated data user, row affected = 0"))
