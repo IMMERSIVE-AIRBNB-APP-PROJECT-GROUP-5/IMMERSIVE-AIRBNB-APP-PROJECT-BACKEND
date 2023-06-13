@@ -47,3 +47,13 @@ func CoreToUpdateModel(dataCore user.Core) User {
 		Password:  dataCore.Password,
 	}
 }
+
+// mapping dari core ke gorm
+func CModel(dataCore user.Core) User {
+	return User{
+		User_name: dataCore.User_name,
+		Phone:     dataCore.Phone,
+		Email:     dataCore.Email,
+		Password:  dataCore.Password,
+	}
+}
