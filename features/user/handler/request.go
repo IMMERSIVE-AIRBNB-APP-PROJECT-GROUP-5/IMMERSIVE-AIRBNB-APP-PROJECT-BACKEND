@@ -7,3 +7,8 @@ type UserRequest struct {
 	Phone     string `json:"phone" form:"phone"`
 	Status    string
 }
+
+type AuthRequest struct {
+	Email    string `json:"email" form:"email"`
+	Password string `json:"password" form:"password"`
+}

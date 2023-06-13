@@ -22,6 +22,11 @@ type Core struct {
 	Deleted_at time.Time
 }
 
+type Login struct {
+	Email    string `json:"nama" form:"name"`
+	Password string `json:"password" form:"password"`
+}
+
 type Register struct {
 	User_name string `json:"nama" form:"nama"`
 	Email     string `json:"email" form:"email"`
@@ -31,7 +36,7 @@ type Register struct {
 
 type UserDataInterface interface {
 	CreateUser(userInput Core) error
-	// Login(email, password string) (Core, string, error)
+	Login(email, password string) (Core, string, error)
 	// GetAllUser(keyword string) ([]Core, error)
 	// GetUserByID(userID uint) (*Core, error)
 	// GetRoleByID(userID int) (UserRole, error)
@@ -43,7 +48,7 @@ type UserDataInterface interface {
 type UserServiceInterface interface {
 	// GetRoleByID(userID int) (UserRole, error)
 	CreateUser(userInput Core) error
-	// Login(email, password string) (Core, string, error)
+	Login(email, password string) (Core, string, error)
 	// GetAllUser(keyword string) ([]Core, error)
 	// Update(userID int, updatedUser Core, loggedInUserID int) error
 	// Delete(userID int, loggedInUserID int) error

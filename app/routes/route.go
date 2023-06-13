@@ -19,8 +19,7 @@ func InitRoute(e *echo.Echo, db *gorm.DB) {
 	// User Routes
 
 	e.POST("/register", userHandlerAPI.CreateUser)
-
-	// e.POST("/login", userHandlerAPI.Login)
+	e.POST("/login", userHandlerAPI.Login)
 	// e.GET("/users", userHandlerAPI.GetAllUser, middlewares.JWTMiddleware())
 	// e.PUT("/users/:id", userHandlerAPI.UpdateUserById, middlewares.JWTMiddleware())
 	// e.POST("/users/role", userHandlerAPI.CreateUser, jwtMiddleware)

@@ -30,7 +30,6 @@ type User struct {
 // mapping dari core ke gorm
 func CoreToModel(dataCore user.Core) User {
 	return User{
-		Model:     gorm.Model{},
 		User_name: dataCore.User_name,
 		Email:     dataCore.Email,
 		Password:  dataCore.Password,

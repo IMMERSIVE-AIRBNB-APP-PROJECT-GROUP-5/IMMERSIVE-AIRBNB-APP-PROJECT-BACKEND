@@ -3,6 +3,7 @@ package data
 import (
 	"errors"
 
+	"github.com/AIRBNBAPP/app/middlewares"
 	"github.com/AIRBNBAPP/features/user"
 	"github.com/AIRBNBAPP/helper"
 	"gorm.io/gorm"
@@ -10,6 +11,43 @@ import (
 
 type userQuery struct {
 	db *gorm.DB
+}
+
+// Login implements user.UserDataInterface.
+func (repo *userQuery) Login(email string, password string) (user.Core, string, error) {
+	var userData User
+
+	// Mencocokkan data inputan email dengan email di database
+	tx := repo.db.Where("email = ?", email).First(&userData)
+	if tx.Error != nil {
+		return user.Core{}, "", tx.Error
+	}
+	if tx.RowsAffected == 0 {
+		return user.Core{}, "", errors.New("Login gagal, email anda salah")
+	}
+	// Mencocokkan data inputan password dengan password yang telah di hashing di database
+	checkPassword := helper.CheckPasswordHash(userData.Password, password)
+	if !checkPassword {
+		return user.Core{}, "", errors.New("Login gagal, password anda salah")
+	}
+
+	token, errToken := middlewares.CreateToken(int(userData.ID))
+	if errToken != nil {
+		return user.Core{}, "", errToken
+	}
+
+	dataCore := user.Core{
+		Id:         userData.ID,
+		User_name:  userData.User_name,
+		Email:      userData.Email,
+		Password:   userData.Password,
+		Phone:      userData.Phone,
+		Status:     user.UserStatus(userData.Status),
+		Created_at: userData.CreatedAt,
+		Updated_at: userData.UpdatedAt,
+	}
+
+	return dataCore, token, nil
 }
 
 // CreateUser implements user.UserDataInterface.
