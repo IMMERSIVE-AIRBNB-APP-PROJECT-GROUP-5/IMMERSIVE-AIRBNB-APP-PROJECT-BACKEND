@@ -13,18 +13,6 @@ type userQuery struct {
 	db *gorm.DB
 }
 
-// ValidateHoster implements user.UserDataInterface.
-func (repo *userQuery) ValidateHoster(id int, userInput user.Core) error {
-	// Mencari pengguna berdasarkan ID
-	var userData User
-	userData.Url = userInput.Url // Mengganti nilai URL di userData dengan URL dari userInput
-	tx := repo.db.Model(&userData).Where("id = ?", id).Updates(User{Url: userData.Url, Status: Hosters})
-	if tx.RowsAffected == 0 {
-		return errors.New("Validate Failed, row affected = 0")
-	}
-	return nil
-}
-
 // Register implements user.UserDataInterface.
 func (repo *userQuery) Register(userInput user.Core) error {
 	hashedPassword, errHash := helper.HashPassword(userInput.Password)
@@ -146,6 +134,18 @@ func (repo *userQuery) DeleteAccount(id int) error {
 	}
 	if tx.RowsAffected == 0 {
 		return errors.New("Deleted Failed, row affected = 0")
+	}
+	return nil
+}
+
+// ValidateHoster implements user.UserDataInterface.
+func (repo *userQuery) ValidateHoster(id int, userInput user.Core) error {
+	// Mencari pengguna berdasarkan ID
+	var userData User
+	userData.Url = userInput.Url // Mengganti nilai URL di userData dengan URL dari userInput
+	tx := repo.db.Model(&userData).Where("id = ?", id).Updates(User{Url: userData.Url, Status: Hosters})
+	if tx.RowsAffected == 0 {
+		return errors.New("Validate Failed, row affected = 0")
 	}
 	return nil
 }

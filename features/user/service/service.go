@@ -14,21 +14,6 @@ type userService struct {
 	validate *validator.Validate
 }
 
-// ValidateHoster implements user.UserServiceInterface.
-func (service *userService) ValidateHoster(id int, userInput user.Core) error {
-	// Mengatur ulang validator
-	validate := validator.New()
-	Url := user.UploadPicture{
-		Url: userInput.Url,
-	}
-	errValidate := validate.Struct(Url)
-	if errValidate != nil {
-		return errValidate
-	}
-	errUrl := service.userData.ValidateHoster(id, userInput)
-	return errUrl
-}
-
 // Register implements user.UserServiceInterface.
 func (service *userService) Register(userInput user.Core) error {
 	// Mengatur ulang validator
@@ -253,6 +238,21 @@ func (service *userService) UpdatedProfil(id int, userInput user.Core) error {
 func (service *userService) DeleteAccount(id int) error {
 	data := service.userData.DeleteAccount(id)
 	return data
+}
+
+// ValidateHoster implements user.UserServiceInterface.
+func (service *userService) ValidateHoster(id int, userInput user.Core) error {
+	// Mengatur ulang validator
+	validate := validator.New()
+	Url := user.UploadPicture{
+		Url: userInput.Url,
+	}
+	errValidate := validate.Struct(Url)
+	if errValidate != nil {
+		return errValidate
+	}
+	errUrl := service.userData.ValidateHoster(id, userInput)
+	return errUrl
 }
 
 func New(repo user.UserDataInterface) user.UserServiceInterface {
