@@ -14,6 +14,21 @@ type userService struct {
 	validate *validator.Validate
 }
 
+// ValidateHoster implements user.UserServiceInterface.
+func (service *userService) ValidateHoster(id int, userInput user.Core) error {
+	// Mengatur ulang validator
+	validate := validator.New()
+	Url := user.UploadPicture{
+		Url: userInput.Url,
+	}
+	errValidate := validate.Struct(Url)
+	if errValidate != nil {
+		return errValidate
+	}
+	errUrl := service.userData.ValidateHoster(id, userInput)
+	return errUrl
+}
+
 // Register implements user.UserServiceInterface.
 func (service *userService) Register(userInput user.Core) error {
 	// Mengatur ulang validator

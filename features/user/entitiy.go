@@ -41,12 +41,17 @@ type UpdatedProfil struct {
 	Password  string `json:"password" form:"password"`
 }
 
+type UploadPicture struct {
+	Url string `json:"url" form:"url"`
+}
+
 type UserDataInterface interface {
 	Register(userInput Core) error
 	Login(email, password string) (Core, string, error)
 	Profil(id int) ([]Core, error)
 	UpdatedProfil(id int, userInput Core) error
 	DeleteAccount(id int) error
+	ValidateHoster(id int, userInput Core) error
 	// GetAllUser(keyword string) ([]Core, error)
 	// GetUserByID(userID uint) (*Core, error)
 	// GetRoleByID(userID int) (UserRole, error)
@@ -61,6 +66,8 @@ type UserServiceInterface interface {
 	Profil(id int) ([]Core, error)
 	UpdatedProfil(id int, userInput Core) error
 	DeleteAccount(id int) error
+	ValidateHoster(id int, userInput Core) error
+	// ValidateHoster(id int, url string) error
 	// GetRoleByID(userID int) (UserRole, error)
 	// GetAllUser(keyword string) ([]Core, error)
 	// Update(userID int, updatedUser Core, loggedInUserID int) error

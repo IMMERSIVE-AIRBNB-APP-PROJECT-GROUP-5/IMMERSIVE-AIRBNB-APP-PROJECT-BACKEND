@@ -1,13 +1,18 @@
 package handler
 
 import (
+	"io"
 	"net/http"
+	"net/url"
 	"strings"
 
+	"cloud.google.com/go/storage"
 	"github.com/AIRBNBAPP/app/middlewares"
 	"github.com/AIRBNBAPP/features/user"
 	"github.com/AIRBNBAPP/helper"
 	"github.com/labstack/echo/v4"
+	"google.golang.org/api/option"
+	"google.golang.org/appengine"
 )
 
 type UserHandler struct {
@@ -136,7 +141,72 @@ func (handler *UserHandler) DeleteAccount(c echo.Context) error {
 			return c.JSON(http.StatusBadRequest, helper.FailedResponse("Pengguna tidak ditemukan"))
 		}
 	}
-
-	// Mengembalikan respons JSON yang menyatakan berhasil menghapus data pengguna
 	return c.JSON(http.StatusOK, helper.SuccessResponse("Berhasil menghapus data pengguna"))
+}
+
+func (handler *UserHandler) ValidateHoster(c echo.Context) error {
+	var (
+		storageClient *storage.Client
+	)
+
+	bucket := "test_buckety_go"
+	folder := "Users"
+
+	ctx := appengine.NewContext(c.Request())
+
+	storageClient, err := storage.NewClient(ctx, option.WithCredentialsFile("keys.json"))
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err.Error(),
+			"error":   true,
+		})
+	}
+
+	file, err := c.FormFile("file")
+	if err != nil {
+		return err
+	}
+	src, err := file.Open()
+	if err != nil {
+		return err
+	}
+	defer src.Close()
+
+	Object := folder + "/" + file.Filename
+
+	sw := storageClient.Bucket(bucket).Object(Object).NewWriter(ctx)
+
+	if _, err := io.Copy(sw, src); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message": err.Error(),
+			"error":   true,
+		})
+	}
+
+	if err := sw.Close(); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message": err.Error(),
+			"error":   true,
+		})
+	}
+
+	u, err := url.Parse("https://storage.googleapis.com/" + bucket + "/" + sw.Attrs().Name)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message": err.Error(),
+			"Error":   true,
+		})
+	}
+	// Mendapatkan ID pengguna yang login
+	id, err := middlewares.ExtractTokenUserId(c)
+
+	userInput := user.Core{
+		Url: u.String(),
+	}
+
+	err = handler.userService.ValidateHoster(id, userInput)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, helper.FailedResponse("Gagal menambahkan foto"))
+	}
+	return c.JSON(http.StatusOK, helper.SuccessResponse("Selamat, anda memiliki akses menambahkan homestays"))
 }

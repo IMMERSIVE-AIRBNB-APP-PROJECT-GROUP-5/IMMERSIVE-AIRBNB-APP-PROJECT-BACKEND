@@ -24,6 +24,7 @@ func InitRoute(e *echo.Echo, db *gorm.DB) {
 	e.GET("/users", userHandlerAPI.Profil, jwtMiddleware)
 	e.PUT("/users", userHandlerAPI.UpdatedProfil, jwtMiddleware)
 	e.DELETE("/users", userHandlerAPI.DeleteAccount, jwtMiddleware)
+	e.POST("/users/validate", userHandlerAPI.ValidateHoster, jwtMiddleware)
 	// e.POST("/users/role", userHandlerAPI.CreateUser, jwtMiddleware)
 	// e.PUT("/users/role/:id", userHandlerAPI.UpdateUser, jwtMiddleware)
 	// e.DELETE("/users/role/:id", userHandlerAPI.DeleteUser, jwtMiddleware)
