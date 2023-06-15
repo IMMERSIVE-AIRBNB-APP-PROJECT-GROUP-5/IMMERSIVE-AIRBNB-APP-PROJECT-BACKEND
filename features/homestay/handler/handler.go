@@ -117,3 +117,25 @@ func (handler *HomestayHandler) CreateHomestay(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, helper.SuccessResponse("Selamat, anda berhasil menambahkan data homestay"))
 }
+
+func (handler *HomestayHandler) GetAllHomestay(c echo.Context) error {
+	// Get the "search" query parameter
+	Search := c.QueryParam("Search")
+	//Memanggil function di Service logic via interface
+	results, err := handler.homestayService.GetAllHomestay(Search)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, helper.FailedResponse("Gagal mendapatkan data homestay"))
+	}
+
+	var userResponse []UserResponse
+	for _, value := range results {
+		userResponse = append(userResponse, UserResponse{
+			Homestay_name: value.Homestay_name,
+			City_name:     value.City_name,
+			Rating:        value.Rating,
+			Price:         value.Price,
+			Url:           value.Url,
+		})
+	}
+	return c.JSON(http.StatusOK, helper.SuccessWithDataResponse("Berhasil mendapatkan data homestay", userResponse))
+}

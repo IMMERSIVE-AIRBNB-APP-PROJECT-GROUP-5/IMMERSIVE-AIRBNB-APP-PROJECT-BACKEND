@@ -15,6 +15,9 @@ type Core struct {
 	Description   string `json:"description" form:"description"`
 	Picture       PictureCore
 	Facilities    []FacilityCore
+	Review        ReviewCore
+	Rating        int    `json:"rating" form:"rating"`
+	Url           string `json:"url" form:"url"`
 	Created_at    time.Time
 	Updated_at    time.Time
 	Deleted_at    time.Time
@@ -44,9 +47,16 @@ type HomestayFacility struct {
 	Deleted_at time.Time
 }
 
+type ReviewCore struct {
+	ReservationID uint   `json:"reservation_id" form:"reservation_id"`
+	HomestayID    uint   `json:"homestay_id" form:"homestay_id"`
+	Rating        int    `json:"rating" form:"rating"`
+	Comment       string `json:"comment" form:"comment"`
+}
+
 type HomestayDataInterface interface {
 	CreateHomestay(id int, userInput Core) error
-	// GetAllHomestay() ([]Core, error)
+	GetAllHomestay(Search string) ([]Core, error)
 	// CreateHomestayFacility(Homestay_Id uint, Facility_Id int) ([]FacilityCore, error)
 	// GetHomestayByUserId(Homestay_Id uint, userID int) error
 	// InsertHomestayPicture([]PictureCore) (Homestay_Id int)
@@ -57,6 +67,7 @@ type HomestayDataInterface interface {
 
 type HomestayServiceInterface interface {
 	CreateHomestay(id int, userInput Core) error
+	GetAllHomestay(Search string) ([]Core, error)
 }
 
 type Register struct {

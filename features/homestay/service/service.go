@@ -13,6 +13,12 @@ type HomestayService struct {
 	validate     *validator.Validate
 }
 
+// GetAllHomestay implements homestay.HomestayServiceInterface.
+func (service *HomestayService) GetAllHomestay(Search string) ([]homestay.Core, error) {
+	data, err := service.HomestayData.GetAllHomestay(Search)
+	return data, err
+}
+
 // CreateHomestay implements homestay.HomestayServiceInterface.
 func (service *HomestayService) CreateHomestay(id int, userInput homestay.Core) error {
 	// Membuat variabel untuk menyimpan facility_id

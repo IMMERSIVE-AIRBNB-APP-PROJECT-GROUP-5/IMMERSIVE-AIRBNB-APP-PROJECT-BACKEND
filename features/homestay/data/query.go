@@ -11,6 +11,42 @@ type homestayQuery struct {
 	db *gorm.DB
 }
 
+// GetAllHomestay implements homestay.HomestayDataInterface.
+func (repo *homestayQuery) GetAllHomestay(Search string) ([]homestay.Core, error) {
+	var results []Homestay
+	tx := repo.db
+	if Search != "" {
+		tx = tx.Where("homestay_name LIKE ?", "%"+Search+"%").
+			Or("city_name LIKE ?", "%"+Search+"%").
+			Or("address LIKE ?", "%"+Search+"%")
+	}
+	if err := tx.Preload("Picture").Preload("Review").Find(&results).Error; err != nil {
+		return nil, err
+	}
+
+	var homestaysCoreAll []homestay.Core
+	for _, value := range results {
+		var homestayCore homestay.Core
+		homestayCore.Homestay_name = value.Homestay_name
+		homestayCore.City_name = value.City_name
+		homestayCore.Price = value.Price
+		homestayCore.Url = value.Picture.Url
+		// Hitung rata-rata rating
+		var totalRating int
+		for _, review := range value.Review {
+			totalRating += review.Rating
+		}
+		if len(value.Review) > 0 {
+			averageRating := totalRating / len(value.Review)
+			homestayCore.Rating = averageRating
+		}
+
+		homestaysCoreAll = append(homestaysCoreAll, homestayCore)
+	}
+
+	return homestaysCoreAll, nil
+}
+
 // CreateHomestay implements homestay.HomestayDataInterface.
 func (repo *homestayQuery) CreateHomestay(id int, userInput homestay.Core) error {
 	// Mencari pengguna berdasarkan ID
