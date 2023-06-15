@@ -5,8 +5,6 @@ import (
 
 	"github.com/AIRBNBAPP/app/config"
 	homestaydata "github.com/AIRBNBAPP/features/homestay/data"
-	reservationdata "github.com/AIRBNBAPP/features/reservation/data"
-	reviewdata "github.com/AIRBNBAPP/features/review/data"
 	userdata "github.com/AIRBNBAPP/features/user/data"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -30,10 +28,10 @@ func InitialMigration(db *gorm.DB) error {
 		&userdata.User{},
 		&homestaydata.Homestay{},
 		&homestaydata.Picture{},
-		&homestaydata.HomestayFacility{},
 		&homestaydata.Facility{},
-		&reservationdata.Reservation{},
-		&reviewdata.Review{},
+		&homestaydata.HomestayFacility{},
+		&homestaydata.Reservation{},
+		&homestaydata.Review{},
 	)
 	if err != nil {
 		return err

@@ -13,8 +13,12 @@ type Core struct {
 	Total_guest   int    `json:"total_guest" form:"total_guest"`
 	Price         int    `json:"price" form:"price"`
 	Description   string `json:"description" form:"description"`
-	Picture       PictureCore
+	Rating        string
+	url           string
+	Reservation   []ReservationCore
+	Review        []ReviewCore
 	Facilities    []FacilityCore
+	Picture       PictureCore
 	Created_at    time.Time
 	Updated_at    time.Time
 	Deleted_at    time.Time
@@ -43,9 +47,34 @@ type HomestayFacility struct {
 	Created_at time.Time
 	Deleted_at time.Time
 }
+type ReservationCore struct {
+	reservation_Id uint
+	UserID         uint      `json:"user_id" form:"user_id"`
+	HomestayID     uint      `json:"homestay_id" form:"homestay_id"`
+	Check_in       time.Time `json:"check_in" form:"check_in"`
+	Check_out      time.Time `json:"check_out" form:"check_out"`
+	Total_night    int       `json:"total_night" form:"total_night"`
+	Total_price    int       `json:"total_price" form:"total_price"`
+	Review         ReviewCore
+	Created_at     time.Time
+	Updated_at     time.Time
+	Deleted_at     time.Time
+}
+
+type ReviewCore struct {
+	Review_Id     uint
+	ReservationID uint   `json:"reservation_id" form:"reservation_id"`
+	HomestayID    uint   `json:"homestay_id" form:"homestay_id"`
+	Rating        int    `json:"rating" form:"rating"`
+	Comment       string `json:"comment" form:"comment"`
+	Created_at    time.Time
+	Updated_at    time.Time
+	Deleted_at    time.Time
+}
 
 type HomestayDataInterface interface {
 	CreateHomestay(id int, userInput Core) error
+	GetAllHomestay(Search string) ([]Core, error)
 	// GetAllHomestay() ([]Core, error)
 	// CreateHomestayFacility(Homestay_Id uint, Facility_Id int) ([]FacilityCore, error)
 	// GetHomestayByUserId(Homestay_Id uint, userID int) error
@@ -57,6 +86,7 @@ type HomestayDataInterface interface {
 
 type HomestayServiceInterface interface {
 	CreateHomestay(id int, userInput Core) error
+	GetAllHomestay(Search string) ([]Core, error)
 }
 
 type Register struct {

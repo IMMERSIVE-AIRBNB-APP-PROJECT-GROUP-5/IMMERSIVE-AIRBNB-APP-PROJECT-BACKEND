@@ -11,6 +11,41 @@ type homestayQuery struct {
 	db *gorm.DB
 }
 
+// GetAllHomestay implements homestay.HomestayDataInterface.
+func (repo *homestayQuery) GetAllHomestay(Search string) ([]homestay.Core, error) {
+	var results []Homestay
+	tx := repo.db
+	if Search != "" {
+		tx = tx.Where("homestay_name LIKE ?", "%"+Search+"%").
+			Or("city_name LIKE ?", "%"+Search+"%").
+			Or("address LIKE ?", "%"+Search+"%")
+	}
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	tx = tx.Preload("Review").
+		Preload("Picture").
+		Table("homestays").
+		Select("homestays.homestay_name, homestays.city_name, homestays.price, reviews.rating, pictures.url").
+		Joins("JOIN pictures ON homestays.id = pictures.homestay_id").
+		Joins("JOIN reviews ON homestays.id = reviews.homestay_id").
+		Where("homestays.deleted_at IS NULL").
+		Find(&results)
+
+	// Konversi tipe data ke []homestay.Core
+	var homestaysCoreAll []homestay.Core
+	for _, value := range results {
+		homestayCore := homestay.Core{
+			Homestay_name: value.Homestay_name,
+			City_name:     value.City_name,
+			Price:         value.Price,
+		}
+		homestaysCoreAll = append(homestaysCoreAll, homestayCore)
+	}
+
+	return homestaysCoreAll, nil
+}
+
 // CreateHomestay implements homestay.HomestayDataInterface.
 func (repo *homestayQuery) CreateHomestay(id int, userInput homestay.Core) error {
 	// Mencari pengguna berdasarkan ID

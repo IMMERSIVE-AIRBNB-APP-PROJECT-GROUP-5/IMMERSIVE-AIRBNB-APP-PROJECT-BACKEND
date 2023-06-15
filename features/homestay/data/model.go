@@ -1,31 +1,25 @@
 package data
 
 import (
+	"time"
+
 	"github.com/AIRBNBAPP/features/homestay"
-	Reservation "github.com/AIRBNBAPP/features/reservation/data"
-	Review "github.com/AIRBNBAPP/features/review/data"
 	"gorm.io/gorm"
 )
 
 type Homestay struct {
 	gorm.Model
-	Homestay_name string                    `gorm:"type:varchar(255);not null" json:"homestay_name" form:"homestay_name"`
-	UserID        uint                      `json:"user_id" form:"user_id"`
-	City_name     string                    `json:"city_name" form:"city_name"`
-	Address       string                    `gorm:"type:longtext;not null" json:"address" form:"address"`
-	Total_guest   int                       `gorm:"not null" json:"total_guest" form:"total_guest"`
-	Price         int                       `gorm:"not null" json:"price" form:"price"`
-	Description   string                    `gorm:"type:longtext;not null" json:"description" form:"description"`
-	Reservation   []Reservation.Reservation `gorm:"foreignKey:HomestayID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	Review        []Review.Review           `gorm:"foreignKey:HomestayID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	Facilities    []Facility                `gorm:"many2many:homestay_facilities;"`
-	Picture       Picture                   `gorm:"foreignKey:HomestayID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-}
-
-type Picture struct {
-	gorm.Model
-	HomestayID uint   `json:"homestay_id" form:"homestay_id"`
-	Url        string `gorm:"type:longtext" json:"url" form:"url"`
+	Homestay_name string        `gorm:"type:varchar(255);not null" json:"homestay_name" form:"homestay_name"`
+	UserID        uint          `json:"user_id" form:"user_id"`
+	City_name     string        `json:"city_name" form:"city_name"`
+	Address       string        `gorm:"type:longtext;not null" json:"address" form:"address"`
+	Total_guest   int           `gorm:"not null" json:"total_guest" form:"total_guest"`
+	Price         int           `gorm:"not null" json:"price" form:"price"`
+	Description   string        `gorm:"type:longtext;not null" json:"description" form:"description"`
+	Reservation   []Reservation `gorm:"foreignKey:HomestayID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Review        []Review      `gorm:"foreignKey:HomestayID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Facilities    []Facility    `gorm:"many2many:homestay_facilities;"`
+	Picture       Picture       `gorm:"foreignKey:HomestayID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 type Facility struct {
@@ -37,6 +31,31 @@ type HomestayFacility struct {
 	gorm.Model
 	HomestayID uint `gorm:"foreignKey:HomestayRefer"`
 	FacilityID uint `gorm:"foreignKey:FacilityRefer"`
+}
+
+type Reservation struct {
+	gorm.Model
+	UserID      uint      `json:"user_id" form:"user_id"`
+	HomestayID  uint      `json:"homestay_id" form:"homestay_id"`
+	Check_in    time.Time `gorm:"type:datetime;not null" json:"check_in" form:"check_in"`
+	Check_out   time.Time `gorm:"type:datetime" json:"check_out" form:"check_out"`
+	Total_night int       `json:"total_night" form:"total_night"`
+	Total_price int       `json:"total_price" form:"total_price"`
+	Review      Review    `gorm:"foreignKey:ReservationID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+}
+
+type Review struct {
+	gorm.Model
+	ReservationID uint   `json:"reservation_id" form:"reservation_id"`
+	HomestayID    uint   `json:"homestay_id" form:"homestay_id"`
+	Rating        int    `gorm:"type:enum('1','2','3','4','5');not null" json:"rating" form:"rating"`
+	Comment       string `gorm:"type:longtext" json:"comment" form:"comment"`
+}
+
+type Picture struct {
+	gorm.Model
+	HomestayID uint   `json:"homestay_id" form:"homestay_id"`
+	Url        string `gorm:"type:longtext" json:"url" form:"url"`
 }
 
 // mapping dari core ke gorm
@@ -72,4 +91,14 @@ func HomestayFacilityCoreToModel(dataCore homestay.HomestayFacility) HomestayFac
 		HomestayID: dataCore.HomestayID,
 		FacilityID: dataCore.FacilityID,
 	}
+}
+
+type Get_HomeStay struct {
+	Homestay_name string
+	City_name     string
+	Address       string
+	Price         int
+	Description   string
+	Rating        float64
+	Url           string
 }

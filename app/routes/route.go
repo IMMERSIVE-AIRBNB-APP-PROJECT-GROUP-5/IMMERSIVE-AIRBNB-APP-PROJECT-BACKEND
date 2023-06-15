@@ -40,7 +40,7 @@ func InitRoute(e *echo.Echo, db *gorm.DB) {
 
 	//EndPointClass
 	e.POST("/homestays", homestayHandlerAPI.CreateHomestay, jwtMiddleware)
-	// e.GET("/classes", classHandlerAPI.GetAllClass, middlewares.JWTMiddleware())
+	e.GET("/homestays", homestayHandlerAPI.GetAllHomestay)
 	// e.PUT("/classes/:id", classHandlerAPI.UpdateClassById, middlewares.JWTMiddleware())
 
 	// menteeData := _menteeData.New(db)
