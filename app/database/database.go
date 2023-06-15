@@ -30,6 +30,7 @@ func InitialMigration(db *gorm.DB) error {
 		&userdata.User{},
 		&homestaydata.Homestay{},
 		&homestaydata.Picture{},
+		&homestaydata.HomestayFacility{},
 		&homestaydata.Facility{},
 		&reservationdata.Reservation{},
 		&reviewdata.Review{},

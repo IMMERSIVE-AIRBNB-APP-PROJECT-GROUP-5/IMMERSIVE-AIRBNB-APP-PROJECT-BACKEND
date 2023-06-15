@@ -10,6 +10,7 @@ import (
 	"github.com/AIRBNBAPP/app/middlewares"
 	"github.com/AIRBNBAPP/features/user"
 	"github.com/AIRBNBAPP/helper"
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"google.golang.org/api/option"
 	"google.golang.org/appengine"
@@ -171,8 +172,8 @@ func (handler *UserHandler) ValidateHoster(c echo.Context) error {
 		return err
 	}
 	defer src.Close()
-
-	Object := folder + "/" + file.Filename
+	objectID := uuid.New().String()
+	Object := folder + "/" + objectID + file.Filename
 
 	sw := storageClient.Bucket(bucket).Object(Object).NewWriter(ctx)
 

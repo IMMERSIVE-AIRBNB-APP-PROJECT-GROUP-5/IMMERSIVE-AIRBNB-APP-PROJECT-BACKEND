@@ -2,6 +2,9 @@ package routes
 
 import (
 	"github.com/AIRBNBAPP/app/middlewares"
+	_homestayData "github.com/AIRBNBAPP/features/homestay/data"
+	_homestayHandler "github.com/AIRBNBAPP/features/homestay/handler"
+	_homestayService "github.com/AIRBNBAPP/features/homestay/service"
 	_userData "github.com/AIRBNBAPP/features/user/data"
 	_userHandler "github.com/AIRBNBAPP/features/user/handler"
 	_userService "github.com/AIRBNBAPP/features/user/service"
@@ -29,14 +32,14 @@ func InitRoute(e *echo.Echo, db *gorm.DB) {
 	// e.PUT("/users/role/:id", userHandlerAPI.UpdateUser, jwtMiddleware)
 	// e.DELETE("/users/role/:id", userHandlerAPI.DeleteUser, jwtMiddleware)
 
-	// classData := _classData.New(db)
+	homestayData := _homestayData.New(db)
 
-	// classService := _classService.New(classData)
+	homestayService := _homestayService.New(homestayData)
 
-	// classHandlerAPI := _classHandler.New(classService)
+	homestayHandlerAPI := _homestayHandler.New(homestayService)
 
-	// //EndPointClass
-	// e.POST("/classes", classHandlerAPI.CreateClass, middlewares.JWTMiddleware())
+	//EndPointClass
+	e.POST("/homestays", homestayHandlerAPI.CreateHomestay, jwtMiddleware)
 	// e.GET("/classes", classHandlerAPI.GetAllClass, middlewares.JWTMiddleware())
 	// e.PUT("/classes/:id", classHandlerAPI.UpdateClassById, middlewares.JWTMiddleware())
 
