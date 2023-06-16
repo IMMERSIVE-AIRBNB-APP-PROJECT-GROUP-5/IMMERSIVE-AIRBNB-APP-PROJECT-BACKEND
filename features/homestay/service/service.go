@@ -22,9 +22,9 @@ func (service *HomestayService) GetAllHomestay(Search string) ([]homestay.Core, 
 
 // CreateHomestay implements homestay.HomestayServiceInterface.
 func (service *HomestayService) CreateHomestay(id int, userInput homestay.Core) error {
-	var user user.Core
+	var users user.Core
 	// Cek apakah pengguna hosters atau bukan
-	if user.Status == "reservant" {
+	if users.Status != user.Hosters {
 		return errors.New("Gagal membuat homestay, silahkan lakukan validasi hosters")
 	}
 
