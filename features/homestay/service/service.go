@@ -24,7 +24,7 @@ func (service *HomestayService) GetAllHomestay(Search string) ([]homestay.Core, 
 func (service *HomestayService) CreateHomestay(id int, userInput homestay.Core) error {
 	var user user.Core
 	// Cek apakah pengguna hosters atau bukan
-	if user.Url == "" {
+	if user.Status == "reservant" {
 		return errors.New("Gagal membuat homestay, silahkan lakukan validasi hosters")
 	}
 
