@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/AIRBNBAPP/features/homestay"
+	"github.com/AIRBNBAPP/features/user"
 
 	"github.com/go-playground/validator/v10"
 )
@@ -21,6 +22,12 @@ func (service *HomestayService) GetAllHomestay(Search string) ([]homestay.Core, 
 
 // CreateHomestay implements homestay.HomestayServiceInterface.
 func (service *HomestayService) CreateHomestay(id int, userInput homestay.Core) error {
+	var user user.Core
+	// Cek apakah pengguna hosters atau bukan
+	if user.Url == "" {
+		return errors.New("Gagal membuat homestay, silahkan lakukan validasi hosters")
+	}
+
 	// Membuat variabel untuk menyimpan facility_id
 	var facilityIDs []uint
 	// Mengambil facility_id dari userInput.Facilities
