@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/AIRBNBAPP/features/homestay"
+	"github.com/AIRBNBAPP/features/user"
 	"gorm.io/gorm"
 )
 
@@ -49,6 +50,17 @@ func (repo *homestayQuery) GetAllHomestay(Search string) ([]homestay.Core, error
 
 // CreateHomestay implements homestay.HomestayDataInterface.
 func (repo *homestayQuery) CreateHomestay(id int, userInput homestay.Core) error {
+	// Mencari pengguna berdasarkan ID
+	var UserStatus user.Core
+
+	// Verifikasi status pengguna
+	if err := repo.db.First(&UserStatus, id).Error; err != nil {
+		return err
+	}
+	if UserStatus.Status != user.Hosters {
+		return errors.New("Gagal membuat homestay, silahkan lakukan validasi hosters")
+	}
+
 	// Mencari pengguna berdasarkan ID
 	var userData Homestay
 
