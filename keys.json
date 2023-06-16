@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "group15-be17",
+  "private_key_id": "4098bc26175b0ac39d474a44da68509e0ec77c46",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC6AfnBeYSraH8s\nS9YWS9NGMOi6ABBrHOBom5JibPKUM2wxaBKShbpMjOpARA+lOa2LbN7Wf7b4+AWz\np4FPYzC3MLIllG+cJ972ZrquDvib7bCEf1h5RqagT5ghScM477sZ9jtX041X25AZ\nfYW/v1cMIzWHJy6yHAh+00Dq5jnT8lUapdPA0O0rpnHiR+VU0fovrErKdXKH707i\nAXrqtlWBTfGfcitrNAi6O3EiDYzwhlXW65pTd2z6Ov/EyGhvSRjd4ZnpuljMGwPz\nM4UU2YOFgUmX8WtJ2Gf98F5XRFo74m7cgvKwukBnyzPFxO5a+IC1agq9TGC/VGbD\nk6dXW1/BAgMBAAECggEACMOvEP640ZrK4ztviv1npxcG4DzAiUuDB2rNKvYXOAR0\nRJ+ywFSswo6hOwX59r8Q/lDS7yh1ZqXJHv31idgSo48X1c14tNLsHpAYm7r42+AH\nQTb+5DgAAe2+LVNcb4JcPozrnufI8SrXT1wqwS4y28+M5iFigeHwRImPtYHDl8ju\nyL5ef70aTF10wnNTSGTH0BcsbiMErl3A3/fCCY2E3kvTUh4uGCL64nh3S+EcCoSl\nDH/tOrAldHUmCreEb88CL/c1qc4q7Es/PdvVZykoOv5S/QNnkVm5nb0qTBBDXkpj\nR7cTJ4RIMsxeRQQk7xtetRnAAYefb8G2volaAXn9QQKBgQDdEbxV6ypstQbNQKqx\nnJyFujWsO/ZD8TaWyL0mRxo/EgszkAF9dCW3AYJijzvVvesgF2XCCOa1sSIlOAZR\n+ukdjeg3zCloRFg2ATt3SRf+3MD59lUdDxzhzoeyN8KcOV1pQQFsHVzONZ0pk5iQ\nvr/nrbwEb9GT7+n58bBoAj2uiwKBgQDXZf9wuij8XMdXtNcW5KOH847Ij95zcrTN\ngqpMkmcpWfr7PxEozIVybipR3Gbx7D+4+CWJJvgqTYYTmOX4qnkErrKduHC2oHOW\nzpBShZMk0AAlkn1rBD3uWp5juyZEGUE+eCkUnq+1QbfmRIsLGjTMuLg2cfy1pjOA\nsguojH6gYwKBgBYwW4j8K6vxl5cucHOXVpaNlCmPcy5qnaIQz/txk47VDs7EG4Iu\nEEMIIcAmxEi14U29S3doUU/XUagOsYO0/YT7410GXvmaMohpI0Db006/dZchRHXA\nOJPpmPEoa54mm9uerLffUptYAkhUCjItEzH73C1N0+lXYVK3EY+++dX1AoGALo/u\n+xhS+dK4iN4fzOQZ8a6VxAdNqBk4umAvniPbxxWbaqqEdBRaGJV18oI5grx2Pe7u\ndkqFROfDPwNDW1DGnluBYxTW0LO4qPX4Ps5/M2r/TR/wmqytEpRmPtra98eZ0f45\nqypugzk0nsNcZ0b/+O1JbQORBFdsNLrISGQuj08CgYACndWXgRI7nB3nqDQiQZkf\ngbxTWMGeqwnnau2flWTsUZNfZjuug4Eztf9PiRKcr0moHLWleRHnE4JV18vVPJYr\nfzAso7OQzadWxKpNkDlxotQUdNAJTd8m2zeCwUWqq9jwFitgR8eREVeIEk3uId0y\neHRio3ASG/uU8bJPsD9KFA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "test-buckety-service@group15-be17.iam.gserviceaccount.com",
+  "client_id": "108416156596877510505",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/test-buckety-service%40group15-be17.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
